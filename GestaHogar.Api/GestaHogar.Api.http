@@ -1,0 +1,6 @@
+@GestaHogar.Api_HostAddress = http://localhost:5149
+
+GET {{GestaHogar.Api_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
