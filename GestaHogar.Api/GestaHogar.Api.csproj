@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>net9.0</TargetFramework>
@@ -7,7 +7,15 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="9.0.4" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="9.0.4" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="9.0.4" />
+	<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.4" />
+    
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\GestaHogar\GestaHogar.csproj" />
   </ItemGroup>
 
 </Project>
