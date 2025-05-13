@@ -1,16 +1,22 @@
 using GestaHogar.Api.Data;
+using GestaHogar.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-builder.Services.AddDbContext<UserDbContext>(options =>
-    options.UseMySql(
-        builder.Configuration.GetConnectionString("MariaDbConnection"),
-        new MySqlServerVersion(new Version(10, 4, 32))
-    ));
+builder.Services.AddControllers();
 
-builder.Services.AddIdentity<IdentityUser, IdentityRole>()
+builder.Services.AddDbContext<UserDbContext>(opt =>
+    opt.UseMySQL(builder.Configuration.GetConnectionString("MariaDbConnection")!)
+);
+
+builder.Services.AddDbContext<AppDbContext>(opt =>
+    opt.UseMySQL(builder.Configuration.GetConnectionString("MariaDbConnection")!)
+);
+
+builder
+    .Services.AddIdentity<User, IdentityRole>()
     .AddEntityFrameworkStores<UserDbContext>()
     .AddDefaultTokenProviders();
 
@@ -25,7 +31,6 @@ app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-
+app.MapControllers();
 
 app.Run();
-

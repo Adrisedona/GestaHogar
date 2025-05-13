@@ -1,14 +1,11 @@
-using Microsoft.AspNetCore.Identity;
+﻿using GestaHogar.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
 namespace GestaHogar.Api.Data
 {
-    public class UserDbContext : IdentityDbContext<IdentityUser<Guid>>
+    public class UserDbContext(DbContextOptions options) : IdentityDbContext<User>(options)
     {
-        public UserDbContext(DbContextOptions<UserDbContext> options)
-            : base(options)
-        {
-        }
     }
+
 }

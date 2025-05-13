@@ -9,7 +9,7 @@ namespace GestaHogar.Models
 {
     public class UserProduct
     {
-        public Guid UserId { get; set; }
+        public required string UserId { get; set; }
         public int ProductId { get; set; }
         public UDouble NormalStock { get; set; }
 
