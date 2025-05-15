@@ -30,7 +30,7 @@ namespace GestaHogar.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserProduct>>> GetUserProducts()
         {
-            return await _context.UserProducts.ToListAsync();
+            return await _context.UserProducts.Where(up => up.UserId == GetUserId()).ToListAsync();
         }
 
         // GET: api/UserProducts/5
@@ -126,7 +126,7 @@ namespace GestaHogar.Api.Controllers
 
         private string GetUserId()
         {
-            return _userManager.GetUserId(User);
+            return _userManager.GetUserId(User)!;
         }
     }
 }
