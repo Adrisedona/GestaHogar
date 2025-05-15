@@ -1,12 +1,11 @@
-﻿namespace GestaHogar.Models
+﻿namespace GestaHogar.Util
 {
-    public partial class Product
+    public enum EUnit
     {
-        public enum EUnit
-        {
-            Grams,
-            Liter,
-            Package
-        }
+        Gram,
+        Liter,
+        Package,
+        Jar,
+        Bottle,
     }
 }
