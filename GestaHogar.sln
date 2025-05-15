@@ -9,6 +9,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaHogar.Api", "GestaHoga
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaHogar.UI", "GestaHogar.UI\GestaHogar.UI.csproj", "{BD4FF77B-54EA-4185-911C-9EE9C35F1F3F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GestaHogar.Scripts", "GestaHogar.Scripts\GestaHogar.Scripts.csproj", "{72DB519D-A694-4434-8483-61DFF3D98AAE}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -28,6 +30,10 @@ Global
 		{BD4FF77B-54EA-4185-911C-9EE9C35F1F3F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{BD4FF77B-54EA-4185-911C-9EE9C35F1F3F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{BD4FF77B-54EA-4185-911C-9EE9C35F1F3F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{72DB519D-A694-4434-8483-61DFF3D98AAE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{72DB519D-A694-4434-8483-61DFF3D98AAE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{72DB519D-A694-4434-8483-61DFF3D98AAE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{72DB519D-A694-4434-8483-61DFF3D98AAE}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
