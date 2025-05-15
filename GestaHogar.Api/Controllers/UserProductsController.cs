@@ -15,16 +15,10 @@ namespace GestaHogar.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserProductsController : ControllerBase
+    public class UserProductsController(AppDbContext context, UserManager<User> userManager) : ControllerBase
     {
-        private readonly AppDbContext _context;
-        private readonly UserManager<User> _userManager;
-
-        public UserProductsController(AppDbContext context, UserManager<User> userManager)
-        {
-            _context = context;
-            _userManager = userManager;
-        }
+        private readonly AppDbContext _context = context;
+        private readonly UserManager<User> _userManager = userManager;
 
         // GET: api/UserProducts
         [HttpGet]
@@ -65,7 +59,7 @@ namespace GestaHogar.Api.Controllers
             }
             catch (DbUpdateConcurrencyException)
             {
-                if (!UserProductExists(id, GetUserId()))
+                if (!UserProductExists(id))
                 {
                     return NotFound();
                 }
@@ -90,7 +84,7 @@ namespace GestaHogar.Api.Controllers
             }
             catch (DbUpdateException)
             {
-                if (UserProductExists(userProduct.ProductId, GetUserId()))
+                if (UserProductExists(userProduct.ProductId))
                 {
                     return Conflict();
                 }
@@ -119,7 +113,7 @@ namespace GestaHogar.Api.Controllers
             return NoContent();
         }
 
-        private bool UserProductExists(int id, string userId)
+        private bool UserProductExists(int id)
         {
             return _context.UserProducts.Any(e => e.ProductId == id && e.UserId == GetUserId());
         }
