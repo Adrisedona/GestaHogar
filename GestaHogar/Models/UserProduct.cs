@@ -13,10 +13,10 @@ namespace GestaHogar.Models
     {
         public required string UserId { get; set; }
         public int ProductId { get; set; }
-        public UDouble NormalStock { get; set; }
+        public UFloat NormalStock { get; set; }
 
-        public UDouble CurrentStock { get; set; }
-        public UDouble DailyUse { get; set; }
+        public UFloat CurrentStock { get; set; }
+        public UFloat DailyUse { get; set; }
 
     }
 }

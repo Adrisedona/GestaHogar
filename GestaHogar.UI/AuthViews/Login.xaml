@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GestaHogar.UI.Login"
+             Title="Iniciar sesión">
+    <VerticalStackLayout
+        Padding="30"
+        Spacing="20"
+        VerticalOptions="Center">
+
+        <Label Text="Iniciar sesión" 
+               FontSize="32"
+               HorizontalOptions="Center" />
+
+        <Entry x:Name="UsernameEntry"
+               Placeholder="Usuario"
+               Keyboard="Email"
+               ReturnType="Next" />
+
+        <Entry x:Name="PasswordEntry"
+               Placeholder="Contraseña"
+               IsPassword="True"
+               ReturnType="Go" />
+
+        <Button Text="Entrar"
+                Clicked="OnLoginClicked"
+                HorizontalOptions="Fill" />
+
+        <Button Text="¿No tienes cuenta? Regístrate"
+                Clicked="OnRegisterClicked"
+                HorizontalOptions="Fill"
+                BackgroundColor="Transparent"
+                TextColor="DodgerBlue"
+                FontAttributes="Bold"/>
+
+        <Label x:Name="ErrorLabel"
+               TextColor="Red"
+               IsVisible="False"
+               FontSize="14"
+               HorizontalOptions="Center" />
+    </VerticalStackLayout>
+</ContentPage>

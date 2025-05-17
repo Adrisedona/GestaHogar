@@ -10,6 +10,8 @@ using GestaHogar.Models;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using System.Security.Claims;
+using GestaHogar.DTO;
+using ZstdSharp.Unsafe;
 
 namespace GestaHogar.Api.Controllers
 {
@@ -20,16 +22,34 @@ namespace GestaHogar.Api.Controllers
         private readonly AppDbContext _context = context;
         private readonly UserManager<User> _userManager = userManager;
 
-        // GET: api/UserProducts
+        // Fix for the CS1061 error in the GetUserProducts method
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<UserProduct>>> GetUserProducts()
+        public async Task<ActionResult<IEnumerable<UserProductDto>>> GetUserProducts()
         {
-            return await _context.UserProducts.Where(up => up.UserId == GetUserId()).ToListAsync();
+            var userProducts = await _context.UserProducts
+                .Where(up => up.UserId == GetUserId())
+                .ToListAsync();
+
+            var userProductDtos = new List<UserProductDto>();
+
+            foreach (var up in userProducts)
+            {
+                var product = await _context.Products
+                    .Where(p => p.Id == up.ProductId)
+                    .FirstOrDefaultAsync();
+
+                if (product != null)
+                {
+                    userProductDtos.Add(new UserProductDto(up, product));
+                }
+            }
+
+            return userProductDtos;
         }
 
         // GET: api/UserProducts/5
         [HttpGet("{id}")]
-        public async Task<ActionResult<UserProduct>> GetUserProduct(int id)
+        public async Task<ActionResult<UserProductDto>> GetUserProduct(int id)
         {
             var userProduct = await _context.UserProducts.FindAsync(id, GetUserId());
 
@@ -38,7 +58,16 @@ namespace GestaHogar.Api.Controllers
                 return NotFound();
             }
 
-            return userProduct;
+            var product = await _context.Products
+                .Where(p => p.Id == userProduct.ProductId)
+                .FirstOrDefaultAsync();
+
+            if (product == null)
+            {
+                return NotFound();
+            }
+
+            return new UserProductDto(userProduct, product);
         }
 
         // PUT: api/UserProducts/5
@@ -50,6 +79,8 @@ namespace GestaHogar.Api.Controllers
             {
                 return BadRequest();
             }
+
+            userProduct.UserId ??= GetUserId();
 
             _context.Entry(userProduct).State = EntityState.Modified;
 
@@ -77,6 +108,7 @@ namespace GestaHogar.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<UserProduct>> PostUserProduct(UserProduct userProduct)
         {
+            userProduct.UserId ??= GetUserId();
             _context.UserProducts.Add(userProduct);
             try
             {
@@ -122,5 +154,7 @@ namespace GestaHogar.Api.Controllers
         {
             return _userManager.GetUserId(User)!;
         }
+
+
     }
 }

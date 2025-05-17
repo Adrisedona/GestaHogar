@@ -1,5 +1,8 @@
+#define DEBUG
+
 using GestaHogar.Api.Data;
 using GestaHogar.Models;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -9,21 +12,29 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddDbContext<AppDbContext>(opt =>
+
+#if DEBUG
     opt.UseInMemoryDatabase("TestGestaHogar")
-//opt.UseMySQL(builder.Configuration.GetConnectionString("MariaDbConnection")!)
+#else
+    opt.UseMySQL(builder.Configuration.GetConnectionString("MariaDbConnection")!)
+#endif
 );
 
 builder
     .Services.AddIdentityApiEndpoints<User>()
-    .AddEntityFrameworkStores<AppDbContext>()
-    .AddDefaultTokenProviders();
+    .AddEntityFrameworkStores<AppDbContext>();
 
-builder.Services.AddAuthentication();
+builder.Services.AddAuthentication().
+    AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opt =>
+    {
+        opt.Audience = builder.Configuration["Jwt:Audience"]!;
+        opt.Authority = builder.Configuration["Jwt:Authority"]!;
+    });
+
 builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
-//map routes here
 app.MapIdentityApi<User>();
 app.MapPost(
         "/logout",
@@ -37,13 +48,12 @@ app.MapPost(
             return Results.Unauthorized();
         }
     )
-    .WithOpenApi()
     .RequireAuthorization();
 
 app.UseHttpsRedirection();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
+app.MapControllers().RequireAuthorization();
 
 app.Run();

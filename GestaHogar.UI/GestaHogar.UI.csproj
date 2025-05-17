@@ -65,13 +65,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="FormUserProduct.xaml">
+	  <ProjectReference Include="..\GestaHogar\GestaHogar.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="Views\FormUserProduct.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Login.xaml">
+	  <MauiXaml Update="AuthViews\Login.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Register.xaml">
+	  <MauiXaml Update="AuthViews\Register.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	  <MauiXaml Update="Views\UserProducts.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	</ItemGroup>

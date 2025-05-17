@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GestaHogar.UI.Views.UserProducts"
+             Title="UserProducts">
+    <VerticalStackLayout>
+        <Label Text="Sus productos" FontSize="24" HorizontalOptions="Center" />
+
+        <Button Text="Agregar producto"
+            Clicked="OnAddProductClicked"
+            HorizontalOptions="Fill" />
+
+
+        <CollectionView x:Name="UserProductsCollection"
+                        ItemsSource="{Binding UserProductsList}">
+            <CollectionView.Header>
+                <Grid ColumnDefinitions="*,*,*,*,Auto,Auto">
+                    <Label Text="Producto" FontAttributes="Bold"/>
+                    <Label Text="Stock Normal" FontAttributes="Bold"/>
+                    <Label Text="Stock Actual" FontAttributes="Bold"/>
+                    <Label Text="Uso Diario" FontAttributes="Bold"/>
+                    <Label Text="Editar" FontAttributes="Bold"/>
+                    <Label Text="Eliminar" FontAttributes="Bold"/>
+                </Grid>
+            </CollectionView.Header>
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Grid ColumnDefinitions="*,*,*,*,Auto,Auto">
+                        <Label Text="{Binding ProductId}" />
+                        <Label Text="{Binding NormalStock}" />
+                        <Label Text="{Binding CurrentStock}" />
+                        <Label Text="{Binding DailyUse}" />
+                        <Button Text="✏️"
+                                Clicked="OnEditProductClicked"
+                                CommandParameter="{Binding .}" />
+                        <Button Text="🗑️"
+                                Clicked="OnDeleteProductClicked"
+                                CommandParameter="{Binding .}" />
+                    </Grid>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+        </CollectionView>
+    </VerticalStackLayout>
+</ContentPage>
