@@ -32,7 +32,7 @@ public partial class UserProducts : ContentPage
         if (sender is Button btn && btn.CommandParameter is UserProductDto product)
         {
             bool confirm = await DisplayAlert("Eliminar producto",
-                $"¿Seguro que deseas eliminar {product}?", "Sí", "No");
+                $"¿Seguro que deseas eliminar {product.ProductName}?", "Sí", "No");
             if (confirm)
             {
                 var response = await GHHttpClient.Client.DeleteAsync(GHHttpClient.DeleteUserProductUri(product.ProductId));
