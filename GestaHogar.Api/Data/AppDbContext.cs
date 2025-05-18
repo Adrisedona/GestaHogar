@@ -3,6 +3,7 @@ using GestaHogar.Util;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
+using MySql.EntityFrameworkCore.Extensions;
 
 namespace GestaHogar.Api.Data
 {
@@ -10,17 +11,6 @@ namespace GestaHogar.Api.Data
     {
         public DbSet<Product> Products { get; set; }
         public DbSet<UserProduct> UserProducts { get; set; }
-
-        //protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
-        //{
-        //    if (!optionsBuilder.IsConfigured)
-        //    {
-        //        //optionsBuilder.UseInMemoryDatabase("TestGestaHogar");
-        //        optionsBuilder.UseMySQL(optionsBuilder.);
-        //    }
-
-        //    base.OnConfiguring(optionsBuilder);
-        //}
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -46,7 +36,8 @@ namespace GestaHogar.Api.Data
                 .HasConversion(nonNegativeFloatConverter);
 
             modelBuilder.Entity<UserProduct>()
-                .HasKey(up => new { up.ProductId, up.UserId });
+                .HasKey(up => new { up.ProductId, up.UserId })
+                .HasName("PRIMARY");
 
             modelBuilder.Entity<Product>()
                 .HasMany(p => p.Users)
@@ -60,6 +51,14 @@ namespace GestaHogar.Api.Data
             modelBuilder.Entity<Product>()
                 .Property(p => p.Unit)
                 .HasConversion<string>();
+
+            modelBuilder.Entity<Product>()
+                .HasKey(p => p.Id)
+                .HasName("PRIMARY");
+
+            modelBuilder.Entity<Product>()
+                .HasIndex(p => p.Name)
+                .IsUnique();
 
             base.OnModelCreating(modelBuilder);
         }

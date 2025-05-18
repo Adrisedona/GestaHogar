@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="GestaHogar.UI.Views.PrintList"
+             Title="Imprimir lista">
+    <VerticalStackLayout Padding="20" Spacing="15">
+        <Label Text="Opciones de impresión" FontAttributes="Bold" FontSize="20" />
+        <RadioButton x:Name="AllRadio" Content="Imprimir toda la lista" GroupName="PrintOptions" IsChecked="True"/>
+        <RadioButton x:Name="LessThanNormalRadio" Content="Solo productos con stock menor que el normal" GroupName="PrintOptions"/>
+        <RadioButton x:Name="LessThanHalfRadio" Content="Solo productos con stock menor que la mitad del normal" GroupName="PrintOptions"/>
+        <RadioButton x:Name="ZeroStockRadio" Content="Solo productos con stock igual a 0" GroupName="PrintOptions"/>
+        <Button Text="Imprimir" Clicked="OnPrintClicked" Margin="0,20,0,0"/>
+    </VerticalStackLayout>
+</ContentPage>

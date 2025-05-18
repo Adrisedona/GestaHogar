@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +13,8 @@ namespace GestaHogar.Client
         public static HttpClient Client { get; } = new();
 
         private static readonly string API_URL = "https://localhost:7224/api";//modificar la dirección de la api tras deploy
+
+        public const string AUTH_SCHEME = JwtBearerDefaults.AuthenticationScheme;
 
         public static string TokenKey => "AuthToken";
 
@@ -27,6 +30,8 @@ namespace GestaHogar.Client
         public static Uri PostUserProductUri => new($"{API_URL}/userproducts");
         public static Uri PutUserProductUri(int id) => new($"{API_URL}/userproducts/{id}");
         public static Uri DeleteUserProductUri(int id) => new($"{API_URL}/userproducts/{id}");
+        public static Uri PutUpdateAllUserProductsUri => new($"{API_URL}/userproducts/updateall");
+        public static Uri PutUpdateUserProduct(int id) => new($"{API_URL}/userproducts/updateproduct/{id}");
 
 
         public static Uri LoginUri => new($"{API_URL}/auth/login");

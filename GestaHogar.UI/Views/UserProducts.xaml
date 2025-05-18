@@ -2,31 +2,41 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GestaHogar.UI.Views.UserProducts"
-             Title="UserProducts">
+             Title="UserProducts"
+             xmlns:data="clr-namespace:GestaHogar.DTO;assembly=GestaHogar"
+             x:DataType="data:UserProductDto">
     <VerticalStackLayout>
         <Label Text="Sus productos" FontSize="24" HorizontalOptions="Center" />
 
+        <Button Text="Imprimir lista"
+            Clicked="OnPrintListClicked"
+            HorizontalOptions="Fill" />
+        
         <Button Text="Agregar producto"
             Clicked="OnAddProductClicked"
             HorizontalOptions="Fill" />
 
+        <Button Text="Actualizar todos"
+            Clicked="OnUpdateAllClicked"
+             HorizontalOptions="Fill" />
 
         <CollectionView x:Name="UserProductsCollection"
                         ItemsSource="{Binding UserProductsList}">
             <CollectionView.Header>
-                <Grid ColumnDefinitions="*,*,*,*,Auto,Auto">
+                <Grid ColumnDefinitions="*,*,*,*,Auto,Auto,Auto">
                     <Label Text="Producto" FontAttributes="Bold"/>
                     <Label Text="Stock Normal" FontAttributes="Bold"/>
                     <Label Text="Stock Actual" FontAttributes="Bold"/>
                     <Label Text="Uso Diario" FontAttributes="Bold"/>
                     <Label Text="Editar" FontAttributes="Bold"/>
                     <Label Text="Eliminar" FontAttributes="Bold"/>
+                    <Label Text="Actualizar" FontAttributes="Bold"/>
                 </Grid>
             </CollectionView.Header>
             <CollectionView.ItemTemplate>
-                <DataTemplate>
+                <DataTemplate x:DataType="data:UserProductDto">
                     <Grid ColumnDefinitions="*,*,*,*,Auto,Auto">
-                        <Label Text="{Binding ProductId}" />
+                        <Label Text="{Binding ProductName}" />
                         <Label Text="{Binding NormalStock}" />
                         <Label Text="{Binding CurrentStock}" />
                         <Label Text="{Binding DailyUse}" />
@@ -35,6 +45,9 @@
                                 CommandParameter="{Binding .}" />
                         <Button Text="🗑️"
                                 Clicked="OnDeleteProductClicked"
+                                CommandParameter="{Binding .}" />
+                        <Button Text="🔄"
+                                Clicked="OnUpdateProductClicked"
                                 CommandParameter="{Binding .}" />
                     </Grid>
                 </DataTemplate>

@@ -1,6 +1,7 @@
 #define DEBUG
 
 using GestaHogar.Api.Data;
+using GestaHogar.Client;
 using GestaHogar.Models;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
@@ -25,7 +26,7 @@ builder
     .AddEntityFrameworkStores<AppDbContext>();
 
 builder.Services.AddAuthentication().
-    AddJwtBearer(JwtBearerDefaults.AuthenticationScheme, opt =>
+    AddJwtBearer(GHHttpClient.AUTH_SCHEME, opt =>
     {
         opt.Audience = builder.Configuration["Jwt:Audience"]!;
         opt.Authority = builder.Configuration["Jwt:Authority"]!;

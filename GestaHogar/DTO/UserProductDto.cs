@@ -10,8 +10,8 @@ namespace GestaHogar.DTO
 {
     public class UserProductDto
     {
-        public int ProductId { get; set; }
-        public string UserId { get; set; }
+        public int? ProductId { get; set; }
+        public string? UserId { get; set; }
         public string ProductName { get; set; }
         public string Category { get; set; }
         public UFloat Amount { get; set; }
@@ -35,7 +35,16 @@ namespace GestaHogar.DTO
             ProductName = product.Name;
             Category = product.Category;
             Amount = product.Amount;
+            Unit = product.Unit;
+        }
 
+        public UserProductDto(Product product)
+        {
+            ProductId = product.Id;
+            ProductName = product.Name;
+            Category = product.Category;
+            Amount = product.Amount;
+            Unit = product.Unit;
         }
 
         public UserProduct GetUserProduct()

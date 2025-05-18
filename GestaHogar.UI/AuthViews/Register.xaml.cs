@@ -65,6 +65,9 @@ public partial class Register : ContentPage
 
                     Preferences.Set(GHHttpClient.TokenKey, result!.Token);
 
+                    GHHttpClient.Client.DefaultRequestHeaders.Authorization =
+                        new System.Net.Http.Headers.AuthenticationHeaderValue(GHHttpClient.AUTH_SCHEME, result.Token);
+
                     var reponseProducts = await GHHttpClient.Client.GetAsync(GHHttpClient.GetUserProductsUri);
 
                     if (reponseProducts.IsSuccessStatusCode)

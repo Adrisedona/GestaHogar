@@ -116,7 +116,7 @@ namespace GestaHogar.Api.Controllers
             }
             catch (DbUpdateException)
             {
-                if (UserProductExists(userProduct.ProductId))
+                if (UserProductExists((int)userProduct.ProductId!))
                 {
                     return Conflict();
                 }
@@ -142,6 +142,32 @@ namespace GestaHogar.Api.Controllers
             _context.UserProducts.Remove(userProduct);
             await _context.SaveChangesAsync();
 
+            return NoContent();
+        }
+
+        [HttpPut("updateall")]
+        public async Task<IActionResult> UpdateAllUserProducts()
+        {
+            var userId = GetUserId();
+            _context.UserProducts
+                .Where(up => up.UserId == userId)
+                .ToList()
+                .ForEach(up => up.CurrentStock = up.NormalStock);
+            await _context.SaveChangesAsync();
+            return NoContent();
+        }
+
+        [HttpPut("updateproduct/{id}")]
+        public async Task<IActionResult> UpdateUserProduct(int id)
+        {
+            var userId = GetUserId();
+            var userProduct = await _context.UserProducts.FindAsync(id, userId);
+            if (userProduct == null)
+            {
+                return NotFound();
+            }
+            userProduct.CurrentStock = userProduct.NormalStock;
+            await _context.SaveChangesAsync();
             return NoContent();
         }
 

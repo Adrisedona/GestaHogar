@@ -42,6 +42,9 @@ public partial class Login : ContentPage
                 // Guarda el token JWT para futuras peticiones
                 Preferences.Set(GHHttpClient.TokenKey, result!.Token);
 
+                GHHttpClient.Client.DefaultRequestHeaders.Authorization =
+                    new System.Net.Http.Headers.AuthenticationHeaderValue(GHHttpClient.AUTH_SCHEME, result.Token);
+
                 var reponseProducts = await GHHttpClient.Client.GetAsync(GHHttpClient.GetUserProductsUri);
 
                 if (reponseProducts.IsSuccessStatusCode)
