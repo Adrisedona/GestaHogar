@@ -63,10 +63,8 @@ public partial class Register : ContentPage
                 {
                     var result = await response.Content.ReadFromJsonAsync<LoginResponse>();
 
-                    Preferences.Set(GHHttpClient.TokenKey, result!.AccessToken);
-
                     GHHttpClient.Client.DefaultRequestHeaders.Authorization =
-                        new System.Net.Http.Headers.AuthenticationHeaderValue(GHHttpClient.AUTH_SCHEME, result.AccessToken);
+                        new System.Net.Http.Headers.AuthenticationHeaderValue(GHHttpClient.AUTH_SCHEME, result!.AccessToken);
 
                     var reponseProducts = await GHHttpClient.Client.GetAsync(GHHttpClient.GetUserProductsUri);
 

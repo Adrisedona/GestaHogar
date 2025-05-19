@@ -39,11 +39,8 @@ public partial class Login : ContentPage
             {
                 var result = await response.Content.ReadFromJsonAsync<LoginResponse>();
 
-                // Guarda el token JWT para futuras peticiones
-                Preferences.Set(GHHttpClient.TokenKey, result!.AccessToken);
-
                 GHHttpClient.Client.DefaultRequestHeaders.Authorization =
-                    new System.Net.Http.Headers.AuthenticationHeaderValue(GHHttpClient.AUTH_SCHEME, result.AccessToken);
+                    new System.Net.Http.Headers.AuthenticationHeaderValue(GHHttpClient.AUTH_SCHEME, result!.AccessToken);
 
                 var reponseProducts = await GHHttpClient.Client.GetAsync(GHHttpClient.GetUserProductsUri);
 
