@@ -47,8 +47,9 @@ public partial class AddProduct : ContentPage
         if (response.IsSuccessStatusCode)
         {
             await DisplayAlert("Éxito", "Producto creado correctamente.", "OK");
+            var newProduct =  await GHHttpClient.Client.GetFromJsonAsync<Product>(response.Headers.Location);
             await Navigation.PopAsync();
-            _products.Add(product);
+            _products.Add(newProduct!);
         }
         else
         {

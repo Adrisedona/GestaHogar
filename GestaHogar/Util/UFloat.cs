@@ -54,7 +54,7 @@ namespace GestaHogar.Util
             return a._value >= b._value;
         }
 
-        public override bool Equals(object a)
+        public override bool Equals(object? a)
         {
             return !(a is UFloat) ? false : this == (UFloat)a;
         }

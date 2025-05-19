@@ -46,8 +46,8 @@ public partial class FormUserProduct : ContentPage
         UserProduct.NormalStock = float.Parse(this.NormalStockEntry.Text);
 
         var response = await (_post
-            ?  GHHttpClient.Client.PostAsJsonAsync(GHHttpClient.PostUserProductUri, UserProduct.GetUserProduct())
-            :  GHHttpClient.Client.PutAsJsonAsync(GHHttpClient.PutUserProductUri((int)UserProduct.ProductId!), UserProduct.GetUserProduct())
+            ? GHHttpClient.Client.PostAsJsonAsync(GHHttpClient.PostUserProductUri, UserProduct.GetUserProduct())
+            : GHHttpClient.Client.PutAsJsonAsync(GHHttpClient.PutUserProductUri((int)UserProduct.ProductId!), UserProduct.GetUserProduct())
         );
 
         if (!response.IsSuccessStatusCode)

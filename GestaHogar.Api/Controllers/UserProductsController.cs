@@ -122,7 +122,7 @@ namespace GestaHogar.Api.Controllers
                 }
                 else
                 {
-                    throw;
+                    return BadRequest("Hubo un error con la solicitud");
                 }
             }
 

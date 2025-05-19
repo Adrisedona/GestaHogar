@@ -59,11 +59,15 @@ namespace GestaHogar.Api.Data
 
             modelBuilder.Entity<Product>()
                 .Property(p => p.Id)
+#if DEBUG
+                .ValueGeneratedOnAdd();
+#else
                 .UseMySQLAutoIncrementColumn("Int");
+#endif
 
             modelBuilder.Entity<Product>()
-                .HasIndex(p => p.Name)
-                .IsUnique();
+                    .HasIndex(p => p.Name)
+                    .IsUnique();
 
             base.OnModelCreating(modelBuilder);
         }
