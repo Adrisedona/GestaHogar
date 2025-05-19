@@ -9,15 +9,15 @@ namespace GestaHogar.UI;
 
 public partial class FormUserProduct : ContentPage
 {
-    public UserProductDto UserProduct { get; }
+    public UserProductDto UserProduct { get; private set; }
     private readonly bool _post;
 
     public FormUserProduct(UserProductDto userProduct, bool post)
     {
-        InitializeComponent();
         this.UserProduct = userProduct;
         BindingContext = this;
         _post = post;
+        InitializeComponent();
     }
 
     public string ProductName => UserProduct.ProductName;
@@ -25,23 +25,27 @@ public partial class FormUserProduct : ContentPage
     public UFloat NormalStock
     {
         get => UserProduct.NormalStock;
-        set => UserProduct.NormalStock = value;
+        set => UserProduct.NormalStock = (UFloat)float.Parse(value.ToString());
     }
     public UFloat CurrentStock
     {
         get => UserProduct.CurrentStock;
-        set => UserProduct.CurrentStock = value;
+        set => UserProduct.CurrentStock = (UFloat)float.Parse(value.ToString());
     }
     public UFloat DailyUse
     {
         get => UserProduct.DailyUse;
-        set => UserProduct.DailyUse = value;
+        set => UserProduct.DailyUse = (UFloat)float.Parse(value.ToString());
     }
     public EUnit Unit => UserProduct.Unit;
 
     private async void OnSaveClicked(object sender, EventArgs e)
     {
-        var response = await (_post 
+        UserProduct.DailyUse = float.Parse(this.DailyUseEntry.Text);
+        UserProduct.CurrentStock = float.Parse(this.CurrentStockEntry.Text);
+        UserProduct.NormalStock = float.Parse(this.NormalStockEntry.Text);
+
+        var response = await (_post
             ?  GHHttpClient.Client.PostAsJsonAsync(GHHttpClient.PostUserProductUri, UserProduct.GetUserProduct())
             :  GHHttpClient.Client.PutAsJsonAsync(GHHttpClient.PutUserProductUri((int)UserProduct.ProductId!), UserProduct.GetUserProduct())
         );

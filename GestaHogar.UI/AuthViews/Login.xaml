@@ -8,12 +8,12 @@
         Spacing="20"
         VerticalOptions="Center">
 
-        <Label Text="Iniciar sesión" 
+        <Label Text="Iniciar sesión"
                FontSize="32"
                HorizontalOptions="Center" />
 
         <Entry x:Name="UsernameEntry"
-               Placeholder="Usuario"
+               Placeholder="Correo electrónico"
                Keyboard="Email"
                ReturnType="Next" />
 

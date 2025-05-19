@@ -8,7 +8,9 @@ namespace GestaHogar.Client
 {
     public class LoginResponse
     {
-        public required string Token { get; set; }
-        public DateTime Expiration { get; set; }
+        public required string TokenType { get; set; }
+        public required string AccessToken { get; set; }
+        public int ExpiresIn { get; set; }
+        public required string RefreshToken { get; set; }
     }
 }

@@ -13,6 +13,8 @@ namespace GestaHogar.PDF
     {
         public static async Task PrintPdf(string filePath, IEnumerable<UserProductDto> userProducts)
         {
+            CreateParentFolder(filePath);
+
             UFloat dif;
             byte[] pdf = userProducts.ToPdf(schema => schema
                 .PageOrientation(PdfOrientations.Portrait)
@@ -28,7 +30,16 @@ namespace GestaHogar.PDF
             using var stream = new FileStream(filePath, FileMode.Create, FileAccess.Write);
 
             await stream.WriteAsync(pdf);
-        } 
+        }
 
+        private static void CreateParentFolder(string filePath)
+        {
+            string parentPath;
+            if (!Directory.Exists(parentPath = new FileInfo(filePath).DirectoryName!))
+            {
+                CreateParentFolder(parentPath);
+                Directory.CreateDirectory(parentPath);
+            }
+        }
     }
 }

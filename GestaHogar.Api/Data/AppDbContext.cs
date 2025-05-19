@@ -18,6 +18,7 @@ namespace GestaHogar.Api.Data
                 v => v.Value,
                 v => new UFloat(v)
             );
+
             modelBuilder.Entity<User>()
                 .HasMany(u => u.Products)
                 .WithMany(p => p.Users)
@@ -55,6 +56,10 @@ namespace GestaHogar.Api.Data
             modelBuilder.Entity<Product>()
                 .HasKey(p => p.Id)
                 .HasName("PRIMARY");
+
+            modelBuilder.Entity<Product>()
+                .Property(p => p.Id)
+                .UseMySQLAutoIncrementColumn("Int");
 
             modelBuilder.Entity<Product>()
                 .HasIndex(p => p.Name)

@@ -69,8 +69,6 @@ public partial class AddUserProduct : ContentPage
 
     private async void OnProductClicked(Product product)
     {
-        await Navigation.PopAsync();//No estoy seguro de querer este comportamiento, pero lo dejo por ahora.
-
         await Navigation.PushAsync(new FormUserProduct(new UserProductDto(product), true));
     }
 

@@ -53,7 +53,7 @@ public partial class Register : ContentPage
 
                 var loginRequest = new
                 {
-                    Username = username,
+                    Email = email,
                     Password = password
                 };
 
@@ -63,10 +63,10 @@ public partial class Register : ContentPage
                 {
                     var result = await response.Content.ReadFromJsonAsync<LoginResponse>();
 
-                    Preferences.Set(GHHttpClient.TokenKey, result!.Token);
+                    Preferences.Set(GHHttpClient.TokenKey, result!.AccessToken);
 
                     GHHttpClient.Client.DefaultRequestHeaders.Authorization =
-                        new System.Net.Http.Headers.AuthenticationHeaderValue(GHHttpClient.AUTH_SCHEME, result.Token);
+                        new System.Net.Http.Headers.AuthenticationHeaderValue(GHHttpClient.AUTH_SCHEME, result.AccessToken);
 
                     var reponseProducts = await GHHttpClient.Client.GetAsync(GHHttpClient.GetUserProductsUri);
 

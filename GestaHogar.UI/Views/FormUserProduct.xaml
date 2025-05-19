@@ -2,23 +2,24 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GestaHogar.UI.FormUserProduct"
-             Title="Producto de usuario">
+             Title="Producto de usuario"
+             x:Name="Form">
     <ScrollView>
         <VerticalStackLayout Padding="20" Spacing="15">
-            <Label Text="{Binding ProductName}" FontAttributes="Bold" FontSize="22" />
-            <Label Text="{Binding Category}" FontAttributes="Italic" FontSize="16" />
+            <Label Text="{Binding ProductName, Source={x:Reference Form}}" FontAttributes="Bold" FontSize="22" />
+            <Label Text="{Binding Category, Source={x:Reference Form}}" FontAttributes="Italic" FontSize="16" />
 
             <Label Text="Stock normal:" />
-            <Entry Text="{Binding NormalStock.Value}" Keyboard="Numeric" />
+            <Entry x:Name="NormalStockEntry" Text="{Binding NormalStock, Source={x:Reference Form}}" Keyboard="Numeric" />
 
             <Label Text="Stock actual:" />
-            <Entry Text="{Binding CurrentStock.Value}" Keyboard="Numeric" />
+            <Entry x:Name="CurrentStockEntry" Text="{Binding CurrentStock, Source={x:Reference Form}}" Keyboard="Numeric" />
 
             <Label Text="Uso diario:" />
-            <Entry Text="{Binding DailyUse.Value}" Keyboard="Numeric" />
+            <Entry x:Name="DailyUseEntry" Text="{Binding DailyUse, Source={x:Reference Form}}" Keyboard="Numeric"/>
 
             <Label Text="Unidad:" />
-            <Label Text="{Binding Unit}" />
+            <Label Text="{Binding Unit, Source={x:Reference Form}}" />
 
             <Button Text="Guardar" Clicked="OnSaveClicked" />
         </VerticalStackLayout>

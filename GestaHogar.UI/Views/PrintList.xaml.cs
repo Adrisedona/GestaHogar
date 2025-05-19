@@ -6,6 +6,7 @@ namespace GestaHogar.UI.Views;
 public partial class PrintList : ContentPage
 {
     private readonly List<UserProductDto> _userProducts;
+
     public PrintList(List<UserProductDto> userProducts)
     {
         InitializeComponent();
@@ -33,9 +34,19 @@ public partial class PrintList : ContentPage
             name = "ListaCero";
         }
 
+        if (!filteredList.Any())
+        {
+            await DisplayAlert("Imprimir", "No hay productos a imprimir", "OK");
+            return;
+        }
+
         await DisplayAlert("Imprimir", $"Se imprimirán {filteredList.Count()} productos.", "OK");
-        
-        await PdfPrinter.PrintPdf(GetSavePdfPath(name), filteredList);
+
+        string path = GetSavePdfPath(name);
+
+        await PdfPrinter.PrintPdf(path, filteredList);
+
+        await DisplayAlert("Imprimir", $"Se han imprimido con exito en {path}", "OK");
     }
 
     private string GetSavePdfPath(string name)
@@ -44,15 +55,24 @@ public partial class PrintList : ContentPage
 
         if (curPlat == DevicePlatform.iOS || curPlat == DevicePlatform.Android)
         {
-            return Path.Combine(FileSystem.AppDataDirectory, "GestaHogar", "PDFs", $"{DateTime.Now:D}_{name}.pdf");
+            return Path.Combine(
+                FileSystem.AppDataDirectory,
+                "GestaHogar",
+                "PDFs",
+                $"{DateTime.Now:D}_{name}.pdf"
+            );
         }
-        else if (curPlat == DevicePlatform.WinUI)
+
+        if (curPlat == DevicePlatform.WinUI)
         {
-            return Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments), "GestaHogar", "PDFs", $"{DateTime.Now:D}_{name}.pdf");
+            return Path.Combine(
+                Environment.GetFolderPath(Environment.SpecialFolder.MyDocuments),
+                "GestaHogar",
+                "PDFs",
+                $"{DateTime.Now:D}_{name}.pdf"
+            );
         }
-        else
-        {
-            throw new NotSupportedException($"Platform {curPlat} is not supported.");//no deberia lanzar esta excepcion
-        }
+
+        throw new NotSupportedException($"Platform {curPlat} is not supported."); //no deberia lanzar esta excepcion
     }
 }

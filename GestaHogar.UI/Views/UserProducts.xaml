@@ -3,50 +3,54 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GestaHogar.UI.Views.UserProducts"
              Title="UserProducts"
-             xmlns:data="clr-namespace:GestaHogar.DTO;assembly=GestaHogar"
-             x:DataType="data:UserProductDto">
+             xmlns:data="clr-namespace:GestaHogar.DTO;assembly=GestaHogar">
     <VerticalStackLayout>
         <Label Text="Sus productos" FontSize="24" HorizontalOptions="Center" />
 
         <Button Text="Imprimir lista"
             Clicked="OnPrintListClicked"
-            HorizontalOptions="Fill" />
-        
+            HorizontalOptions="Fill"
+            Margin ="5" />
+
         <Button Text="Agregar producto"
             Clicked="OnAddProductClicked"
-            HorizontalOptions="Fill" />
+            HorizontalOptions="Fill"
+            Margin ="5"/>
 
         <Button Text="Actualizar todos"
             Clicked="OnUpdateAllClicked"
-             HorizontalOptions="Fill" />
+             HorizontalOptions="Fill"
+             Margin ="5"/>
 
         <CollectionView x:Name="UserProductsCollection"
-                        ItemsSource="{Binding UserProductsList}">
+                        ItemsSource="{Binding UserProductsList}"
+                        HorizontalOptions="Fill"
+                        Margin="3">
             <CollectionView.Header>
                 <Grid ColumnDefinitions="*,*,*,*,Auto,Auto,Auto">
-                    <Label Text="Producto" FontAttributes="Bold"/>
-                    <Label Text="Stock Normal" FontAttributes="Bold"/>
-                    <Label Text="Stock Actual" FontAttributes="Bold"/>
-                    <Label Text="Uso Diario" FontAttributes="Bold"/>
-                    <Label Text="Editar" FontAttributes="Bold"/>
-                    <Label Text="Eliminar" FontAttributes="Bold"/>
-                    <Label Text="Actualizar" FontAttributes="Bold"/>
+                    <Label Grid.Column="0" Text="Producto" FontAttributes="Bold"/>
+                    <Label Grid.Column="1" Text="Stock Normal" FontAttributes="Bold"/>
+                    <Label Grid.Column="2" Text="Stock Actual" FontAttributes="Bold"/>
+                    <Label Grid.Column="3" Text="Uso Diario" FontAttributes="Bold"/>
+                    <Label Grid.Column="4" Text="Editar" FontAttributes="Bold"/>
+                    <Label Grid.Column="5" Text="Eliminar" FontAttributes="Bold"/>
+                    <Label Grid.Column="6" Text="Actualizar" FontAttributes="Bold"/>
                 </Grid>
             </CollectionView.Header>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="data:UserProductDto">
                     <Grid ColumnDefinitions="*,*,*,*,Auto,Auto">
-                        <Label Text="{Binding ProductName}" />
-                        <Label Text="{Binding NormalStock}" />
-                        <Label Text="{Binding CurrentStock}" />
-                        <Label Text="{Binding DailyUse}" />
-                        <Button Text="✏️"
+                        <Label Grid.Column="0" Text="{Binding ProductName}" />
+                        <Label Grid.Column="1" Text="{Binding NormalStock}" />
+                        <Label Grid.Column="2" Text="{Binding CurrentStock}" />
+                        <Label Grid.Column="3" Text="{Binding DailyUse}" />
+                        <Button Grid.Column="4" Text="✏️"
                                 Clicked="OnEditProductClicked"
                                 CommandParameter="{Binding .}" />
-                        <Button Text="🗑️"
+                        <Button Grid.Column="5" Text="🗑️"
                                 Clicked="OnDeleteProductClicked"
                                 CommandParameter="{Binding .}" />
-                        <Button Text="🔄"
+                        <Button Grid.Column="6" Text="🔄"
                                 Clicked="OnUpdateProductClicked"
                                 CommandParameter="{Binding .}" />
                     </Grid>

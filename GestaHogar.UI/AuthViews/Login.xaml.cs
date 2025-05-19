@@ -15,10 +15,10 @@ public partial class Login : ContentPage
     private async void OnLoginClicked(object sender, EventArgs e)
     {
         ErrorLabel.IsVisible = false;
-        var username = UsernameEntry.Text?.Trim();
+        var email = UsernameEntry.Text?.Trim();
         var password = PasswordEntry.Text;
 
-        if (string.IsNullOrEmpty(username) || string.IsNullOrEmpty(password))
+        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(password))
         {
             ErrorLabel.Text = "Usuario y contraseña requeridos.";
             ErrorLabel.IsVisible = true;
@@ -29,7 +29,7 @@ public partial class Login : ContentPage
         {
             var loginRequest = new
             {
-                Username = username,
+                Email = email,
                 Password = password
             };
 
@@ -40,10 +40,10 @@ public partial class Login : ContentPage
                 var result = await response.Content.ReadFromJsonAsync<LoginResponse>();
 
                 // Guarda el token JWT para futuras peticiones
-                Preferences.Set(GHHttpClient.TokenKey, result!.Token);
+                Preferences.Set(GHHttpClient.TokenKey, result!.AccessToken);
 
                 GHHttpClient.Client.DefaultRequestHeaders.Authorization =
-                    new System.Net.Http.Headers.AuthenticationHeaderValue(GHHttpClient.AUTH_SCHEME, result.Token);
+                    new System.Net.Http.Headers.AuthenticationHeaderValue(GHHttpClient.AUTH_SCHEME, result.AccessToken);
 
                 var reponseProducts = await GHHttpClient.Client.GetAsync(GHHttpClient.GetUserProductsUri);
 
@@ -58,7 +58,6 @@ public partial class Login : ContentPage
                     ErrorLabel.Text = "Error al obtener sus productos.";
                     ErrorLabel.IsVisible = true;
                 }
-                
             }
             else
             {

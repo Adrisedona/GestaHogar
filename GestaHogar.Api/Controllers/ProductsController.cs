@@ -7,13 +7,18 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using GestaHogar.Api.Data;
 using GestaHogar.Models;
+using FluentValidation;
+using GestaHogar.Validators;
+using System.ComponentModel.DataAnnotations;
 
 namespace GestaHogar.Api.Controllers
 {
+
     [Route("api/[controller]")]
     [ApiController]
     public class ProductsController(AppDbContext context) : ControllerBase
     {
+        private readonly ProductValidator _validator = new();
         private readonly AppDbContext _context = context;
 
         // GET: api/Products
@@ -47,6 +52,13 @@ namespace GestaHogar.Api.Controllers
                 return BadRequest();
             }
 
+            var validationResult = await _validator.ValidateAsync(product);
+
+            if (!validationResult.IsValid)
+            {
+                return (IActionResult)Results.ValidationProblem(validationResult.ToDictionary());
+            }
+
             _context.Entry(product).State = EntityState.Modified;
 
             try
@@ -71,8 +83,15 @@ namespace GestaHogar.Api.Controllers
         // POST: api/Products
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost]
-        public async Task<ActionResult<Product>> PostProduct(Product product)
+        public async Task<IActionResult> PostProduct(Product product)
         {
+            var validationResult = await _validator.ValidateAsync(product);
+
+            if (!validationResult.IsValid)
+            {
+                return (IActionResult)Results.ValidationProblem(validationResult.ToDictionary());
+            }
+
             _context.Products.Add(product);
             await _context.SaveChangesAsync();
 
