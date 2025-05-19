@@ -9,11 +9,13 @@ public partial class AddUserProduct : ContentPage
     private const int COLUMNS = 2;
 
     public ObservableCollection<Product> ProductsList { get; private set; } = [];
+    public ObservableCollection<UserProductDto> UserProductsList { get; private set; } = [];
 
     public AddUserProduct(List<Product> products, ObservableCollection<UserProductDto> userProducts)
 	{
 		InitializeComponent();
 		ProductsList = [.. products.Where(p => !userProducts.Any(up => up.ProductId == p.Id))];
+        UserProductsList = userProducts;
         ProductsList.CollectionChanged += (s, e) => BuildGrid();
         BuildGrid();
     }
@@ -69,7 +71,7 @@ public partial class AddUserProduct : ContentPage
 
     private async void OnProductClicked(Product product)
     {
-        await Navigation.PushAsync(new FormUserProduct(new UserProductDto(product), true));
+        await Navigation.PushAsync(new FormUserProduct(this.UserProductsList ,new UserProductDto(product), true));
     }
 
     private async void OnAddProductClicked(object? sender, EventArgs e)

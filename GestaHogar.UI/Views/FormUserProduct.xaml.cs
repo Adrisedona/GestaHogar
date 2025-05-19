@@ -1,20 +1,26 @@
+using System.Collections.ObjectModel;
+using System.Net.Http.Json;
 using GestaHogar.Client;
 using GestaHogar.DTO;
 using GestaHogar.Models;
 using GestaHogar.Util;
-using System.Collections.ObjectModel;
-using System.Net.Http.Json;
 
 namespace GestaHogar.UI;
 
 public partial class FormUserProduct : ContentPage
 {
     public UserProductDto UserProduct { get; private set; }
+    public ObservableCollection<UserProductDto> UserProducts { get; private set; }
     private readonly bool _post;
 
-    public FormUserProduct(UserProductDto userProduct, bool post)
+    public FormUserProduct(
+        ObservableCollection<UserProductDto> userProducts,
+        UserProductDto userProduct,
+        bool post
+    )
     {
         this.UserProduct = userProduct;
+        this.UserProducts = userProducts;
         BindingContext = this;
         _post = post;
         InitializeComponent();
@@ -45,9 +51,16 @@ public partial class FormUserProduct : ContentPage
         UserProduct.CurrentStock = float.Parse(this.CurrentStockEntry.Text);
         UserProduct.NormalStock = float.Parse(this.NormalStockEntry.Text);
 
-        var response = await (_post
-            ? GHHttpClient.Client.PostAsJsonAsync(GHHttpClient.PostUserProductUri, UserProduct.GetUserProduct())
-            : GHHttpClient.Client.PutAsJsonAsync(GHHttpClient.PutUserProductUri((int)UserProduct.ProductId!), UserProduct.GetUserProduct())
+        var response = await (
+            _post
+                ? GHHttpClient.Client.PostAsJsonAsync(
+                    GHHttpClient.PostUserProductUri,
+                    UserProduct.GetUserProduct()
+                )
+                : GHHttpClient.Client.PutAsJsonAsync(
+                    GHHttpClient.PutUserProductUri((int)UserProduct.ProductId!),
+                    UserProduct.GetUserProduct()
+                )
         );
 
         if (!response.IsSuccessStatusCode)
@@ -57,6 +70,16 @@ public partial class FormUserProduct : ContentPage
         }
 
         await DisplayAlert("Guardado", "Producto guardado correctamente.", "OK");
+
+        if (_post)
+        {
+            var newUserProduct = await GHHttpClient.Client.GetFromJsonAsync<UserProductDto>(
+                response.Headers.Location
+            );
+
+            UserProducts.Add(newUserProduct!);
+        }
+
         await Navigation.PopAsync();
     }
 }

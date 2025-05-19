@@ -42,11 +42,11 @@ public partial class Login : ContentPage
                 GHHttpClient.Client.DefaultRequestHeaders.Authorization =
                     new System.Net.Http.Headers.AuthenticationHeaderValue(GHHttpClient.AUTH_SCHEME, result!.AccessToken);
 
-                var reponseProducts = await GHHttpClient.Client.GetAsync(GHHttpClient.GetUserProductsUri);
+                var responseProducts = await GHHttpClient.Client.GetAsync(GHHttpClient.GetUserProductsUri);
 
-                if (reponseProducts.IsSuccessStatusCode)
+                if (responseProducts.IsSuccessStatusCode)
                 {
-                    var content = await reponseProducts.Content.ReadFromJsonAsync<List<UserProductDto>>();
+                    var content = await responseProducts.Content.ReadFromJsonAsync<List<UserProductDto>>();
 
                     await Navigation.PushAsync(new UserProducts(content!));
                 }
