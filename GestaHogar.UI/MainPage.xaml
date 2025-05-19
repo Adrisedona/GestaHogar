@@ -2,7 +2,8 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="GestaHogar.UI.MainPage">
-    <Grid x:Name="RootGrid">
-
-    </Grid>
+    <VerticalStackLayout x:Name="RootGrid">
+        <Image Source="gestahogar_logo.png" HorizontalOptions="Center" MaximumWidthRequest="256" MaximumHeightRequest="256"></Image>
+        <Label Text="Pulse en la pantalla para entrar" HorizontalOptions="Center" Margin="60" TextColor="LightGreen"></Label>
+    </VerticalStackLayout>
 </ContentPage>

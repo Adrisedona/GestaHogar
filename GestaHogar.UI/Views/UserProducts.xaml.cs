@@ -51,11 +51,13 @@ public partial class UserProducts : ContentPage
                 "Sí",
                 "No"
             );
+
             if (confirm)
             {
                 var response = await GHHttpClient.Client.DeleteAsync(
                     GHHttpClient.DeleteUserProductUri((int)product.ProductId!)
                 );
+
                 if (response.IsSuccessStatusCode)
                 {
                     UserProductsList.Remove(product);
