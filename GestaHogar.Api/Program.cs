@@ -1,15 +1,11 @@
 #define DEBUG
 
-using FluentValidation;
 using GestaHogar.Api.Data;
 using GestaHogar.Client;
 using GestaHogar.Models;
-using GestaHogar.Validators;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using FluentValidation.AspNetCore;
 
 var builder = WebApplication.CreateBuilder(args);
 

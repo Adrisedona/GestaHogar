@@ -12,11 +12,9 @@ namespace GestaHogar.Client
     {
         public static HttpClient Client { get; } = new();
 
-        private static readonly string API_URL = "https://localhost:7224";//modificar la dirección de la api tras deploy
+        private const string API_URL = "https://localhost:7224";//modificar la dirección de la api tras deploy
 
         public const string AUTH_SCHEME = JwtBearerDefaults.AuthenticationScheme;
-
-        public static string TokenKey => "AuthToken";
 
         public static Uri GetProductsUri => new($"{API_URL}/api/products");
         public static Uri GetProductUri(int id) => new($"{API_URL}/api/products/{id}");
@@ -36,6 +34,7 @@ namespace GestaHogar.Client
 
         public static Uri LoginUri => new($"{API_URL}/login");
         public static Uri RegisterUri => new($"{API_URL}/register");
+        public static Uri LogoutUri => new($"{API_URL}/logout");
 
 
     }
