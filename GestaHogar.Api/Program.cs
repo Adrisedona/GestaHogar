@@ -35,6 +35,10 @@ builder.Services.AddAuthorization();
 
 var app = builder.Build();
 
+app.UseHttpsRedirection();
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapIdentityApi<User>();
 app.MapPost(
         "/logout",
@@ -49,10 +53,6 @@ app.MapPost(
         }
     )
     .RequireAuthorization();
-
-app.UseHttpsRedirection();
-app.UseAuthentication();
-app.UseAuthorization();
 
 app.MapControllers().RequireAuthorization();
 
