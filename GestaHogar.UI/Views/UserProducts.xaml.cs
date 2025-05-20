@@ -130,7 +130,7 @@ public partial class UserProducts : ContentPage
             {
                 await DisplayAlert(
                     "Éxito",
-                    $"Producto {userProduct.ProductName} actualizado.",
+                    $"{userProduct.ProductName} actualizado.",
                     "OK"
                 );
                 userProduct.CurrentStock = userProduct.NormalStock;
@@ -139,7 +139,7 @@ public partial class UserProducts : ContentPage
             {
                 await DisplayAlert(
                     "Error",
-                    $"No se pudo actualizar el producto {userProduct.ProductName}.",
+                    $"No se pudo actualizar {userProduct.ProductName}.",
                     "OK"
                 );
             }
