@@ -1,23 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using GestaHogar.Api.Data;
+﻿using GestaHogar.Api.Data;
+using GestaHogar.DTO;
 using GestaHogar.Models;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Security.Claims;
-using GestaHogar.DTO;
-using ZstdSharp.Unsafe;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace GestaHogar.Api.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserProductsController(AppDbContext context, UserManager<User> userManager) : ControllerBase
+    public class UserProductsController(AppDbContext context, UserManager<User> userManager)
+        : ControllerBase
     {
         private readonly AppDbContext _context = context;
         private readonly UserManager<User> _userManager = userManager;
@@ -26,16 +19,16 @@ namespace GestaHogar.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserProductDto>>> GetUserProducts()
         {
-            var userProducts = await _context.UserProducts
-                .Where(up => up.UserId == GetUserId())
+            var userProducts = await _context
+                .UserProducts.Where(up => up.UserId == GetUserId())
                 .ToListAsync();
 
             var userProductDtos = new List<UserProductDto>();
 
             foreach (var up in userProducts)
             {
-                var product = await _context.Products
-                    .Where(p => p.Id == up.ProductId)
+                var product = await _context
+                    .Products.Where(p => p.Id == up.ProductId)
                     .FirstOrDefaultAsync();
 
                 if (product != null)
@@ -58,8 +51,8 @@ namespace GestaHogar.Api.Controllers
                 return NotFound();
             }
 
-            var product = await _context.Products
-                .Where(p => p.Id == userProduct.ProductId)
+            var product = await _context
+                .Products.Where(p => p.Id == userProduct.ProductId)
                 .FirstOrDefaultAsync();
 
             if (product == null)
@@ -126,7 +119,11 @@ namespace GestaHogar.Api.Controllers
                 }
             }
 
-            return CreatedAtAction("GetUserProduct", new { id = userProduct.ProductId }, userProduct);
+            return CreatedAtAction(
+                "GetUserProduct",
+                new { id = userProduct.ProductId },
+                userProduct
+            );
         }
 
         // DELETE: api/UserProducts/5
@@ -149,11 +146,13 @@ namespace GestaHogar.Api.Controllers
         public async Task<IActionResult> UpdateAllUserProducts()
         {
             var userId = GetUserId();
-            _context.UserProducts
-                .Where(up => up.UserId == userId)
+            _context
+                .UserProducts.Where(up => up.UserId == userId)
                 .ToList()
                 .ForEach(up => up.CurrentStock = up.NormalStock);
+
             await _context.SaveChangesAsync();
+
             return NoContent();
         }
 
@@ -162,12 +161,15 @@ namespace GestaHogar.Api.Controllers
         {
             var userId = GetUserId();
             var userProduct = await _context.UserProducts.FindAsync(id, userId);
+
             if (userProduct == null)
             {
                 return NotFound();
             }
+
             userProduct.CurrentStock = userProduct.NormalStock;
             await _context.SaveChangesAsync();
+
             return NoContent();
         }
 
@@ -180,7 +182,5 @@ namespace GestaHogar.Api.Controllers
         {
             return _userManager.GetUserId(User)!;
         }
-
-
     }
 }
