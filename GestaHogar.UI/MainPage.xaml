@@ -4,6 +4,6 @@
              x:Class="GestaHogar.UI.MainPage">
     <VerticalStackLayout x:Name="RootGrid">
         <Image Source="gestahogar_logo.png" HorizontalOptions="Center" MaximumWidthRequest="256" MaximumHeightRequest="256"></Image>
-        <Label Text="Pulse en la pantalla para entrar" HorizontalOptions="Center" Margin="60" TextColor="LightGreen"></Label>
+        <Label Text="Pulse en la pantalla para entrar" HorizontalOptions="Center" Margin="80" TextColor="LightGreen"></Label>
     </VerticalStackLayout>
 </ContentPage>
