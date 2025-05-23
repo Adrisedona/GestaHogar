@@ -1,5 +1,6 @@
 ﻿using GestaHogar.Models;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 namespace GestaHogar.Api.Data
 {
@@ -54,7 +55,8 @@ namespace GestaHogar.Api.Data
                 {
                     Email = "a@admin.com",
                     UserName = "a",
-                    PasswordHash = hasher.HashPassword(userA, "c0ntras3nha_"),
+                    NormalizedUserName = "A",
+                    PasswordHash = hasher.HashPassword(null, "c0ntras3nha_"),
                 }
             );
 
@@ -65,7 +67,8 @@ namespace GestaHogar.Api.Data
                 {
                     Email = "b@test.com",
                     UserName = "b",
-                    PasswordHash = hasher.HashPassword(userB, "c0ntras3nha!"),
+                    NormalizedUserName = "A",
+                    PasswordHash = hasher.HashPassword(null, "c0ntras3nha!"),
                 }
             );
 

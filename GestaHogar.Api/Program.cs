@@ -12,7 +12,6 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllers();
 
 builder.Services.AddDbContext<AppDbContext>(opt =>
-
 #if DEBUG
     opt.UseInMemoryDatabase("TestGestaHogar")
 #else
@@ -20,16 +19,18 @@ builder.Services.AddDbContext<AppDbContext>(opt =>
 #endif
 );
 
-builder
-    .Services.AddIdentityApiEndpoints<User>()
-    .AddEntityFrameworkStores<AppDbContext>();
+builder.Services.AddIdentityApiEndpoints<User>().AddEntityFrameworkStores<AppDbContext>();
 
-builder.Services.AddAuthentication().
-    AddJwtBearer(GHHttpClient.AUTH_SCHEME, opt =>
-    {
-        opt.Audience = builder.Configuration["Jwt:Audience"]!;
-        opt.Authority = builder.Configuration["Jwt:Authority"]!;
-    });
+builder
+    .Services.AddAuthentication()
+    .AddJwtBearer(
+        GHHttpClient.AUTH_SCHEME,
+        opt =>
+        {
+            opt.Audience = builder.Configuration["Jwt:Audience"]!;
+            opt.Authority = builder.Configuration["Jwt:Authority"]!;
+        }
+    );
 
 builder.Services.AddAuthorization();
 
@@ -55,5 +56,11 @@ app.MapPost(
     .RequireAuthorization();
 
 app.MapControllers().RequireAuthorization();
+
+#if DEBUG
+app.Services.CreateScope()
+    .ServiceProvider.GetRequiredService<AppDbContext>()
+    .Database.EnsureCreated();
+#endif
 
 app.Run();
