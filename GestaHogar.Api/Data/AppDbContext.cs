@@ -12,6 +12,17 @@ namespace GestaHogar.Api.Data
         public DbSet<Product> Products { get; set; }
         public DbSet<UserProduct> UserProducts { get; set; }
 
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            var seeder = new Seeder(this);
+
+            optionsBuilder
+                .UseSeeding((_, _) => seeder.Seed())
+                .UseAsyncSeeding((_, _, cancellationToken) => seeder.SeedAsync(cancellationToken));
+
+            base.OnConfiguring(optionsBuilder);
+        }
+
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             var nonNegativeFloatConverter = new ValueConverter<UFloat, float>(
