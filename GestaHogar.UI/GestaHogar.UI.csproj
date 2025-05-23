@@ -22,7 +22,7 @@
 		<MauiEnableXamlCBindingWithSourceCompilation>true</MauiEnableXamlCBindingWithSourceCompilation>
 
 		<!-- Display name -->
-		<ApplicationTitle>GestaHogar.UI</ApplicationTitle>
+		<ApplicationTitle>GestaHogar</ApplicationTitle>
 
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.gestahogar.ui</ApplicationId>
