@@ -50,6 +50,7 @@ public partial class FormUserProduct : ContentPage
         UserProduct.DailyUse = float.Parse(this.DailyUseEntry.Text);
         UserProduct.CurrentStock = float.Parse(this.CurrentStockEntry.Text);
         UserProduct.NormalStock = float.Parse(this.NormalStockEntry.Text);
+        UserProduct.UserId ??= string.Empty;
 
         var response = await (
             _post

@@ -68,12 +68,10 @@ namespace GestaHogar.Api.Controllers
         [HttpPut("{id}")]
         public async Task<IActionResult> PutUserProduct(int id, UserProduct userProduct)
         {
-            if (id != userProduct.ProductId)
+            if (id != userProduct.ProductId || userProduct.UserId != GetUserId())
             {
                 return BadRequest();
             }
-
-            userProduct.UserId ??= GetUserId();
 
             _context.Entry(userProduct).State = EntityState.Modified;
 
@@ -101,7 +99,11 @@ namespace GestaHogar.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<UserProduct>> PostUserProduct(UserProduct userProduct)
         {
-            userProduct.UserId ??= GetUserId();
+            if (string.IsNullOrWhiteSpace(userProduct.UserId))
+            {
+                userProduct.UserId = GetUserId();
+            }
+
             _context.UserProducts.Add(userProduct);
             try
             {

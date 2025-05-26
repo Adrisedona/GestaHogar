@@ -20,6 +20,17 @@ namespace GestaHogar.DTO
         public UFloat DailyUse { get; set; }
         public UFloat NormalStock { get; set; }
 
+        public UserProductDto()
+        {
+            ProductName = string.Empty;
+            Category = string.Empty;
+            Amount = new UFloat(0);
+            Unit = EUnit.Gram;
+            CurrentStock = new UFloat(0);
+            DailyUse = new UFloat(0);
+            NormalStock = new UFloat(0);
+        }
+
         public UserProductDto(UserProduct userProduct, Product product)
         {
             if (userProduct.ProductId != product.Id)
@@ -52,7 +63,7 @@ namespace GestaHogar.DTO
             return new UserProduct
             {
                 ProductId = this.ProductId,
-                UserId = this.UserId,
+                UserId = this.UserId ?? "",
                 CurrentStock = this.CurrentStock,
                 DailyUse = this.DailyUse,
                 NormalStock = this.NormalStock

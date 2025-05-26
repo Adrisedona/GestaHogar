@@ -39,12 +39,12 @@
             </CollectionView.Header>
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="data:UserProductDto">
-                    <Grid ColumnDefinitions="*,*,*,*,Auto,Auto">
+                    <Grid ColumnDefinitions="*,*,*,*,Auto,Auto,Auto">
                         <Label Grid.Column="0" Text="{Binding ProductName}" />
-                        <Label Grid.Column="1" Text="{Binding NormalStock}" />
-                        <Label Grid.Column="2" Text="{Binding CurrentStock}" />
-                        <Label Grid.Column="3" Text="{Binding DailyUse}" />
-                        <Button Grid.Column="4" Text="✏️"
+                        <Label Grid.Column="1" Text="{Binding NormalStock.Value}" />
+                        <Label Grid.Column="2" Text="{Binding CurrentStock.Value}" />
+                        <Label Grid.Column="3" Text="{Binding DailyUse.Value}" />
+                        <Button Grid.Column="4" Text="✎"
                                 Clicked="OnEditProductClicked"
                                 CommandParameter="{Binding .}" />
                         <Button Grid.Column="5" Text="🗑️"
